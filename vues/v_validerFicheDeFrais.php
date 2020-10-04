@@ -33,23 +33,13 @@
             <div class="form-group">
                 <label for="lstVisiteur" accesskey="n">Visiteur : </label>
                 <select id="lstVisiteur" name="lstVisiteur" class="form-control">
-                    <?php
-                    $lesVisiteur = pdo::getVisiteurFromMois('202010');
-                    $cleeVisiteur = array_keys($lesVisiteur);
-                    $visiteurSelectionner = $cleeVisiteur[0];
+                    <?php                   
+                    $lesVisiteur = $pdo->getVisiteurFromMois('202010');                   
                     foreach ($lesVisiteur as $unVisiteur) {
-                        $idVisiteur = $unVisiteur['idvisiteur'];
-                        if ($idVisiteur == $visiteurSelectionner) {
-                            ?>
-                            <option selected value="<?php echo $idVisiteur ?>">
-                                <?php echo $idVisiteur ?> </option>
-                            <?php
-                        } else {
-                            ?>
-                            <option value="<?php echo $idVisiteur ?>">
-                                <?php echo $idVisiteur ?> </option>
-                            <?php
-                        }
+                        $idVisiteur = $unVisiteur;
+                        ?>                       
+                        <option value="<?php echo $idVisiteur ?>"> <?php echo $idVisiteur ?></option>
+                        <?php
                     }
                     ?>
 
