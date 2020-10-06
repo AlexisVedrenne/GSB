@@ -127,4 +127,3 @@ INSERT INTO visiteur (id, nom, prenom, login, mdp, adresse, cp, ville, dateembau
 INSERT INTO comptable (id, nom, prenom, login, mdp, adresse, cp, ville, dateembauche) VALUES
 ('ahj7', 'Vedrenne', 'Alexis', 'Alved', 'fl4vie', '45 rue de la liberté', '83390', 'Cuers', '2007-05-08'),
 ('cop7', 'Delage', 'Gabriel', 'Gdlage', 'sam8s', '1 bis rue Jean Bonnet', '83200', 'Lalbenque', '1998-11-23'),
-('ed7', 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01');
