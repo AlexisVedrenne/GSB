@@ -1,4 +1,4 @@
-
+<?php $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING); ?>
 <h2>Fiches de frais</h2>
 <div class="row">
     <div class="col-md-4">
@@ -33,32 +33,55 @@
             <input id="okDate" type="submit" value="Valider" class="btn btn-success" 
                    role="button">           
         </form>
-        <form action="" method="post" role="form">
+        <form action="index.php?uc=validerFicheDeFrais&action=AffichageFicheFraisAndVisiteur" method="post" role="form">
             <div class="form-group">
                 <label for="lstVisiteur" accesskey="n">Visiteur : </label>
                 <select id="lstVisiteur" name="lstVisiteur" class="form-control">
                     <?php
-                    $date = str_replace('/', '', filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING));
-                    trim($date);
-                    $lesVisiteur = $pdo->getVisiteurFromMois($date);
-                    $selectedValue = $lesVisiteur[0];
-                    foreach ($lesVisiteur as $unVisiteur) {
-                        $idvisi = $unVisiteur['visiteur'];
-                        if ($selectedValue == $idvisi) {
-                            ?><option selected value="<?php echo $unVisiteur['visiteur'] ?>"><?php echo $unVisiteur['visiteur'] ?></option>               
-                        <?php } else { ?> <option value="<?php echo $idvisi ?>"><?php echo $idvisi ?></option> <?php
+                    if (!isset($_SESSION['date'])) {
+                        $date = str_replace('/', '', filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING));
+                        trim($date);
+                        $_SESSION['date'] = $date;
+                        $lesVisiteur = $pdo->getVisiteurFromMois($date);
+                        $selectedValue = $lesVisiteur[0];
+                        foreach ($lesVisiteur as $unVisiteur) {
+                            $idvisi = $unVisiteur['visiteur'];
+                            if ($selectedValue == $idvisi) {
+                                ?><option selected value="<?php echo $unVisiteur['visiteur'] ?>"><?php echo $unVisiteur['visiteur'] ?></option>               
+                            <?php } else { ?> <option value="<?php echo $idvisi ?>"><?php echo $idvisi ?></option> <?php
+                            }
+                        }
+                    } else {
+                        $lesVisiteur = $pdo->getVisiteurFromMois($date);
+                        $selectedValue = $lesVisiteur[0];
+                        foreach ($lesVisiteur as $unVisiteur) {
+                            $idvisi = $unVisiteur['visiteur'];
+                            if ($selectedValue == $idvisi) {
+                                ?><option selected value="<?php echo $unVisiteur['visiteur'] ?>"><?php echo $unVisiteur['visiteur'] ?></option>               
+                            <?php } else { ?> <option value="<?php echo $idvisi ?>"><?php echo $idvisi ?></option> <?php
+                            }
                         }
                     }
                     ?>
                 </select>
             </div>
-            <?php if (filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING) == 'selectionnerVisiteur') { ?>
+            <?php if ($action == 'selectionnerVisiteur' || $action == 'AffichageFicheFraisAndVisiteur') { ?>
                 <input id="okVisiteur" type="submit" value="Valider" class="btn btn-success" 
                        role="button">
-            <?php }?>
-                         
+                   <?php } ?>
+
         </form>
-        
     </div>
-    
+    <?php if ($action == 'AffichageFicheFraisAndVisiteur') { ?>
+        <div class="panel panel-info">
+            <div class="panel-heading">Eléments forfaitisés</div>
+            <table class="table table-bordered table-responsive">
+                <tr>
+
+                </tr>
+                <tr>                
+                </tr>
+            </table>
+        </div>
+    <?php } ?>
 </div>
