@@ -103,6 +103,19 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetch();
     }
+    public function getInfosComptable($login, $mdp)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT comptable.id AS id, comptable.nom AS nom, '
+            . 'comptable.prenom AS prenom '
+            . 'FROM comptable '
+            . 'WHERE comptable.login = :unLogin AND comptable.mdp = :unMdp'
+        );
+        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
+    }
 
     /**
      * Retourne sous forme d'un tableau associatif toutes les lignes de frais
@@ -485,5 +498,33 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+    }
+    
+    public function getMoisFicheDeFrais(){
+        $requetePrepare= PdoGSB::$monPdo->prepare(
+                "select distinct mois from fichefrais where idetat='CR'");
+        $requetePrepare->execute();
+        $leMois = array();
+        while ($laLigne = $requetePrepare->fetch()) {
+            $mois = $laLigne['mois'];
+            $numAnnee = substr($mois, 0, 4);
+            $numMois = substr($mois, 4, 2);
+            $leMois[] = array(
+                'mois' => $mois,
+                'numAnnee' => $numAnnee,
+                'numMois' => $numMois
+            );
+        }
+        return $leMois;
+    }
+    
+    public function getVisiteurFromMois($mois){
+        $requetePrepare= PdoGSB::$monPdo->prepare(
+            'select idvisiteur from fichefrais '
+             . 'where mois= :unMois');
+        $requetePrepare->bindParam(':unMois',$mois,PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $res=$requetePrepare->fetch();
+        return $res;
     }
 }
