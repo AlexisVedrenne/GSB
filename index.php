@@ -42,7 +42,7 @@ case 'etatFrais':
 case 'deconnexion':
     include 'controleurs/c_deconnexion.php';
     break;
-case 'validerFicheDefrais':
+case 'validerFicheDeFrais':
     include 'controleurs/c_validerFicheDeFrais.php';
     break;
 }

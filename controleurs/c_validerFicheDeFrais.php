@@ -6,7 +6,6 @@
  * and open the template in the editor.
  */
 
-
 $lesMois=$pdo->getMoisFicheDeFrais();
 $clee=array_keys($lesMois);
 $moisASelectionne = $clee[0];

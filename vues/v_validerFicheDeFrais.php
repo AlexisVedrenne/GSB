@@ -5,7 +5,7 @@
         <h3>Sélectionner un mois et un visiteur : </h3>
     </div>
     <div class="col-md-4">
-        <form action="index.php?uc=etatFrais&action=voirEtatFrais" 
+        <form action="index.php?uc=validerFicheDeFrais&action=selectionnerVisiteur" 
               method="post" role="form">
             <div class="form-group">
                 <label for="lstMois" accesskey="n">Mois : </label>
@@ -29,27 +29,36 @@
                     }
                     ?>    
                 </select>
-            </div>
+            </div>                    
+            <input id="okDate" type="submit" value="Valider" class="btn btn-success" 
+                   role="button">           
+        </form>
+        <form action="" method="post" role="form">
             <div class="form-group">
                 <label for="lstVisiteur" accesskey="n">Visiteur : </label>
                 <select id="lstVisiteur" name="lstVisiteur" class="form-control">
-                    <?php                   
-                    $lesVisiteur = $pdo->getVisiteurFromMois('202010');                   
+                    <?php
+                    $date = str_replace('/', '', filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING));
+                    trim($date);
+                    $lesVisiteur = $pdo->getVisiteurFromMois($date);
+                    $selectedValue = $lesVisiteur[0];
                     foreach ($lesVisiteur as $unVisiteur) {
-                        $idVisiteur = $unVisiteur;
-                        ?>                       
-                        <option value="<?php echo $idVisiteur ?>"> <?php echo $idVisiteur ?></option>
-                        <?php
+                        $idvisi = $unVisiteur['visiteur'];
+                        if ($selectedValue == $idvisi) {
+                            ?><option selected value="<?php echo $unVisiteur['visiteur'] ?>"><?php echo $unVisiteur['visiteur'] ?></option>               
+                        <?php } else { ?> <option value="<?php echo $idvisi ?>"><?php echo $idvisi ?></option> <?php
+                        }
                     }
                     ?>
-
-
                 </select>
             </div>
-            <input id="ok" type="submit" value="Valider" class="btn btn-success" 
-                   role="button">
-            <input id="annuler" type="reset" value="Effacer" class="btn btn-danger" 
-                   role="button">
+            <?php if (filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING) == 'selectionnerVisiteur') { ?>
+                <input id="okVisiteur" type="submit" value="Valider" class="btn btn-success" 
+                       role="button">
+            <?php }?>
+                         
         </form>
+        
     </div>
+    
 </div>
