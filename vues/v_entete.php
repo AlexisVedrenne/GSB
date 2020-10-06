@@ -87,7 +87,7 @@
                                 </a>
                             </li>
                             <li <?php if ($uc == 'etatFrais') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=etatFrais&action=selectionnerMois">
+                                <a href="">
                                     <span class="glyphicon glyphicon-list-alt"></span>
                                     Suivre fiche de frais
                                 </a>
