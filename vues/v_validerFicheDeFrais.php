@@ -1,4 +1,4 @@
-<?php $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING); ?>
+<?php $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);?>
 <h2>Fiches de frais</h2>
 <div class="row">
     <div class="col-md-4">
@@ -38,7 +38,7 @@
                 <label for="lstVisiteur" accesskey="n">Visiteur : </label>
                 <select id="lstVisiteur" name="lstVisiteur" class="form-control">
                     <?php
-                    if (!isset($_SESSION['date'])) {
+                    if (empty($_SESSION['date'])) {
                         $date = str_replace('/', '', filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING));
                         trim($date);
                         $_SESSION['date'] = $date;
@@ -52,7 +52,7 @@
                             }
                         }
                     } else {
-                        $lesVisiteur = $pdo->getVisiteurFromMois($date);
+                        $lesVisiteur = $pdo->getVisiteurFromMois($_SESSION['date']);
                         $selectedValue = $lesVisiteur[0];
                         foreach ($lesVisiteur as $unVisiteur) {
                             $idvisi = $unVisiteur['visiteur'];
@@ -71,17 +71,17 @@
                    <?php } ?>
 
         </form>
-    </div>
-    <?php if ($action == 'AffichageFicheFraisAndVisiteur') { ?>
-        <div class="panel panel-info">
-            <div class="panel-heading">Eléments forfaitisés</div>
-            <table class="table table-bordered table-responsive">
-                <tr>
-
-                </tr>
-                <tr>                
-                </tr>
-            </table>
-        </div>
-    <?php } ?>
+    </div>   
 </div>
+<?php if ($action == 'AffichageFicheFraisAndVisiteur') { ?>
+    <div class="panel panel-info">
+        <div class="panel-heading">Eléments forfaitisés</div>
+        <table class="table table-bordered table-responsive">
+            <tr>
+
+            </tr>
+            <tr>                
+            </tr>
+        </table>
+    </div>
+<?php } ?>
