@@ -38,7 +38,7 @@
                 <label for="lstVisiteur" accesskey="n">Visiteur : </label>
                 <select id="lstVisiteur" name="lstVisiteur" class="form-control">
                     <?php
-                    if (!isset($_SESSION['date'])) {
+                    if (isset($_SESSION['date'])) {
                         $date = str_replace('/', '', filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING));
                         trim($date);
                         $_SESSION['date'] = $date;
