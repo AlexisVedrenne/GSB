@@ -18,12 +18,12 @@
                         if ($mois == $moisASelectionne) {
                             ?>
                             <option selected value="<?php echo $mois ?>">
-                                <?php echo $numMois . '/' . $numAnnee ?> </option>
+                                <?php echo $numAnnee . '/' . $numMois ?> </option>
                             <?php
                         } else {
                             ?>
                             <option value="<?php echo $mois ?>">
-                                <?php echo $numMois . '/' . $numAnnee ?> </option>
+                                <?php echo $numAnnee . '/' . $numMois ?> </option>
                             <?php
                         }
                     }
@@ -40,7 +40,7 @@
                     <?php
                     if (empty($_SESSION['date'])) {
                         $date = str_replace('/', '', filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING));
-                        trim($date);
+                        trim($date);                      
                         $_SESSION['date'] = $date;
                         $lesVisiteur = $pdo->getVisiteurFromMois($date);
                         $selectedValue = $lesVisiteur[0];
