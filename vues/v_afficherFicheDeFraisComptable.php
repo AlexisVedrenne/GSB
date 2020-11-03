@@ -19,9 +19,24 @@
         $idEtat = $infoFicheDeFrais['idEtat'];
         ?>
         <tr>
-            <td><?php echo $date ?></td>
-            <td><?php echo $nbJustificatifs ?></td>
-            <td><?php echo $montant ?></td>
+            <td><div class="form-group">                     
+                    <input type="text" id="iddate" 
+                           size="10" maxlength="5" 
+                           value="<?php echo $date ?>" 
+                           class="form-control">
+                </div></td>
+            <td><div class="form-group">                     
+                    <input type="text" id="idnbJustificatif" 
+                           size="10" maxlength="5" 
+                           value="<?php echo $nbJustificatifs ?>" 
+                           class="form-control">
+                </div></td>
+            <td><div class="form-group">                     
+                    <input type="text" id="idMontant" 
+                           size="10" maxlength="5" 
+                           value="<?php echo $montant ?>" 
+                           class="form-control">
+                </div></td>
             <td><?php echo $idEtat ?></td>
             <td><?php echo $libelle ?></td>
         </tr>
@@ -48,7 +63,12 @@
             <tr>
                 <td><?php echo $libelleFrais ?></td>
                 <td><?php echo $idLibelle ?></td>
-                <td><?php echo $quantite ?></td>
+                <td><div class="form-group">                     
+                    <input type="text" id="idQuantite" 
+                           size="10" maxlength="5" 
+                           value="<?php echo $quantite ?>" 
+                           class="form-control">
+                </div></td>
                 <td><?php echo $prix ?></td>
                 <td><?php echo $prix * $quantite ?></td>                   
             </tr>                            

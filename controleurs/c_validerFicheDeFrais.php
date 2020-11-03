@@ -29,6 +29,7 @@ if ($action == 'AffichageFicheFraisAndVisiteur') {
     $idVisiteur = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_STRING);
     $infoFicheDeFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $_SESSION['date']);
     $infoFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $_SESSION['date']);
+    $infoFraisHorsForfait=$pdo->getLesFraisHorsForfait($idVisiteur, $_SESSION['date']);
     require 'vues/v_afficherFicheDeFraisComptable.php';
 }
 
