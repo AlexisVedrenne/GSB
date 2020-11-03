@@ -103,6 +103,19 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetch();
     }
+    public function getInfosComptable($login, $mdp)
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT comptable.id AS id, comptable.nom AS nom, '
+            . 'comptable.prenom AS prenom '
+            . 'FROM comptable '
+            . 'WHERE comptable.login = :unLogin AND comptable.mdp = :unMdp'
+        );
+        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch();
+    }
 
     /**
      * Retourne sous forme d'un tableau associatif toutes les lignes de frais
@@ -169,20 +182,16 @@ class PdoGsb
     public function getLesFraisForfait($idVisiteur, $mois)
     {
         $requetePrepare = PdoGSB::$monPdo->prepare(
-            'SELECT fraisforfait.id as idfrais, '
-            . 'fraisforfait.libelle as libelle, '
-            . 'lignefraisforfait.quantite as quantite '
-            . 'FROM lignefraisforfait '
-            . 'INNER JOIN fraisforfait '
-            . 'ON fraisforfait.id = lignefraisforfait.idfraisforfait '
-            . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
-            . 'AND lignefraisforfait.mois = :unMois '
-            . 'ORDER BY lignefraisforfait.idfraisforfait'
+            'select fraisforfait.id as idfrais,fraisforfait.libelle as libelle,lignefraisforfait.quantite as quantite,fraisforfait.montant as prix '
+            .'from lignefraisforfait inner join fraisforfait '
+            .'on fraisforfait.id=lignefraisforfait.idfraisforfait '
+            .'where lignefraisforfait.idvisiteur= :unIdVisiteur and '
+            .'lignefraisforfait.mois= :unMois'             
         );
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
-        return $requetePrepare->fetchAll();
+        return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -447,7 +456,7 @@ class PdoGsb
     {
         $requetePrepare = PdoGSB::$monPdo->prepare(
             'SELECT fichefrais.idetat as idEtat, '
-            . 'fichefrais.datemodif as dateModif,'
+            . 'fichefrais.datemodif as dateModif, '
             . 'fichefrais.nbjustificatifs as nbJustificatifs, '
             . 'fichefrais.montantvalide as montantValide, '
             . 'etat.libelle as libEtat '
@@ -459,7 +468,7 @@ class PdoGsb
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
+        $laLigne = $requetePrepare->fetch(PDO::FETCH_ASSOC);
         return $laLigne;
     }
 
@@ -487,14 +496,31 @@ class PdoGsb
         $requetePrepare->execute();
     }
     
-    public function getEtatFicheFrais($idFicheDePaie)
-    {
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-                "SELECT fichefrais.idetat as idEtat '
-                . 'FROM fichefrais '
-                . 'WHERE fichefrais.idEtat = :unEtat "
-        );
-        $requetePrepare->bindParam(':idFicheDePaie', $idFicheDePaie, PDO::PARAM_STR);
+    public function getMoisFicheDeFrais(){
+        $requetePrepare= PdoGSB::$monPdo->prepare(
+                "select distinct mois from fichefrais where idetat='CR'");
         $requetePrepare->execute();
+        $leMois = array();
+        while ($laLigne = $requetePrepare->fetch()) {
+            $mois = $laLigne['mois'];
+            $numAnnee = substr($mois, 0, 4);
+            $numMois = substr($mois, 4, 2);
+            $leMois[] = array(
+                'mois' => $mois,
+                'numAnnee' => $numAnnee,
+                'numMois' => $numMois
+            );
+        }
+        return $leMois;
+    }
+    
+    public function getVisiteurFromMois($mois){
+        $requetePrepare= PdoGSB::$monPdo->prepare(
+            'select idvisiteur as visiteur from fichefrais '
+             . 'where mois=:unMois');
+        $requetePrepare->bindParam(':unMois',$mois,PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $res=$requetePrepare->fetchAll(PDO::FETCH_ASSOC);
+        return $res;
     }
 }

@@ -23,7 +23,6 @@
         <form method="post" 
               action="index.php?uc=gererFrais&action=validerMajFraisForfait" 
               role="form">
-            
             <fieldset>       
                 <?php
                 foreach ($lesFraisForfait as $unFrais) {
