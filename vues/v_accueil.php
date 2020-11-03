@@ -77,6 +77,16 @@
                     </div>
                 </div>
             </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <a href="index.php?uc=suiviFrais&action=selectionnerFicheFrais"
+                           class="btn btn-success btn-lg" role="button">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            <br>Suivre Paiement fiches de frais</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

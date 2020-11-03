@@ -523,4 +523,11 @@ class PdoGsb
         $res=$requetePrepare->fetchAll(PDO::FETCH_ASSOC);
         return $res;
     }
+    
+    public function getFicheAValiderEtMiseEnPaiement() {
+        $requetePrepare= PdoGSB::$monPdo->prepare(
+                "select * from fichefrais 'where idetat='VA'");
+        $requetePrepare->execute();
+        
+    }
 }
