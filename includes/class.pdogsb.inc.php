@@ -132,7 +132,7 @@ class PdoGsb
     public function getLesFraisHorsForfait($idVisiteur, $mois)
     {
         $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT id as id, idvisiteur as idvisiteur, mois as moi, libelle as libelle, date as date, montant as montant FROM lignefraishorsforfait '
+            'SELECT id as id, idvisiteur as idvisiteur, mois as mois, libelle as libelle, date as date, montant as montant FROM lignefraishorsforfait '
             . 'WHERE lignefraishorsforfait.idvisiteur = :unIdVisiteur '
             . 'AND lignefraishorsforfait.mois = :unMois'
         );

@@ -42,7 +42,7 @@
         </tr>
 
     </table>
-    <div class="panel-heading">Eléments forfaistisés</div>
+    <div class="panel-heading">Eléments forfaitisés</div>
     <table class="table table-bordered table-responsive">
         <tr>
             <th>Libelle</th>
