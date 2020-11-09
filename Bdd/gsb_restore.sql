@@ -2,9 +2,8 @@
 
 -- Administration de la base de données
 CREATE DATABASE gsb_frais ;
-GRANT SHOW DATABASES ON *.* TO userGsb@localhost IDENTIFIED BY 'secret';
-GRANT ALL PRIVILEGES ON `gsb_frais`.* TO userGsb@localhost;
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+CREATE USER 'userGsb'@'localhost' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON *.* TO 'userGsb'@'localhost';
 USE gsb_frais ;
 
 -- Création de la structure de la base de données
