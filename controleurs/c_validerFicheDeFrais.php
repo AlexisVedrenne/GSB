@@ -31,8 +31,8 @@ if ($action == 'AffichageFicheFraisAndVisiteur') {
     $infoFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $_SESSION['date']);
     $infoFraisHorsForfait=$pdo->getLesFraisHorsForfait($idVisiteur, $_SESSION['date']);
     require 'vues/v_afficherFicheDeFraisComptable.php';
-    require 'vues/v_horsForfaitComtable.php';
     require 'vues/v_correctionComptable.php';
+    require 'vues/v_horsForfaitComtable.php';
 }
 
 
