@@ -24,8 +24,7 @@
             <td><?php echo $montant ?></td>
             <td><?php echo $idEtat ?></td>
             <td><?php echo $libelle ?></td>
-        </tr>
-
+        </tr>       
     </table>
     <div class="panel-heading">Eléments forfaitisés</div>
     <table class="table table-bordered table-responsive">
@@ -49,16 +48,22 @@
                 <td><?php echo $libelleFrais ?></td>
                 <td><?php echo $idLibelle ?></td>
                 <td><div class="form-group">                     
-                    <input type="text" id="idQuantite" 
-                           size="10" maxlength="5" 
-                           value="<?php echo $quantite ?>" 
-                           class="form-control">
-                </div></td>
+                        <input type="text" id="idQuantite" 
+                               size="10" maxlength="5" 
+                               value="<?php echo $quantite ?>" 
+                               class="form-control">
+                    </div></td>
                 <td><?php echo $prix ?></td>
                 <td><?php echo $prix * $quantite ?></td>                   
             </tr>                            
         <?php } ?>
     </table>
-    <div class="panel-heading">Coût des frais forfaits : <?php echo $total . '€' ?></div>
-</div>   
+    <div class="panel-heading">Coût des frais forfaits : <?php echo $total . '€' ?></div>   
+</div>
+<div class="form-group">
+    <div class="col-md-4">
+        <button id="btnCorrection" class="btn btn-success">Correction</button>
+        <button id="btnRen" class="btn btn-danger">Renitialiser</button>
+    </div>
+</div>
 

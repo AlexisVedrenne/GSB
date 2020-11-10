@@ -519,4 +519,16 @@ class PdoGsb
         $res=$requetePrepare->fetchAll(PDO::FETCH_ASSOC);
         return $res;
     }
+    
+    public function majFraisHorsForfait($libelle,$date,$montant,$idVisiteur){
+        $requetrePrepare=PdoGSB::$monPdo->prepare(
+                'update lignefraishorsforfait '
+                . 'set date=:date,libelle=:libelle,montant=:montant '
+                . 'where idvisiteur=:id');
+        $requetrePrepare->bindParam(':date',$date,PDO::PARAM_STR);
+        $requetrePrepare->bindParam(':libelle',$libelle,PDO::PARAM_STR);
+        $requetrePrepare->bindParam(':montant',$montant);
+        $requetrePrepare->bindParam(':idvisiteur',$idVisiteur,PDO::PARAM_INT);
+        $requetrePrepare->execute();
+    }
 }
