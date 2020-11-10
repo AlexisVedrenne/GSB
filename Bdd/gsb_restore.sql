@@ -91,7 +91,8 @@ INSERT INTO etat (id, libelle) VALUES
 ('RB', 'Remboursée'),
 ('CL', 'Saisie clôturée'),
 ('CR', 'Fiche créée, saisie en cours'),
-('VA', 'Validée et mise en paiement');
+('VA', 'Validée'),
+('MP', 'Mise en paiement');
 
 -- Récupération des utilisateurs
 INSERT INTO visiteur (id, nom, prenom, login, mdp, adresse, cp, ville, dateembauche) VALUES
@@ -126,4 +127,4 @@ INSERT INTO visiteur (id, nom, prenom, login, mdp, adresse, cp, ville, dateembau
 
 INSERT INTO comptable (id, nom, prenom, login, mdp, adresse, cp, ville, dateembauche) VALUES
 ('ahj7', 'Vedrenne', 'Alexis', 'Alved', 'fl4vie', '45 rue de la liberté', '83390', 'Cuers', '2007-05-08'),
-('cop7', 'Delage', 'Gabriel', 'Gdlage', 'sam8s', '1 bis rue Jean Bonnet', '83200', 'Lalbenque', '1998-11-23'),
+('cop7', 'Delage', 'Gabriel', 'Gdlage', 'sam8s', '1 bis rue Jean Bonnet', '83200', 'Lalbenque', '1998-11-23');

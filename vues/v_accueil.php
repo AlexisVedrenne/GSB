@@ -75,9 +75,9 @@
                             <span class="glyphicon glyphicon-pencil"></span>
                             <br>Valider les fiches de frais</a>                       
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 <?php }
