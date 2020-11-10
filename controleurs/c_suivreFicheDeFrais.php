@@ -9,16 +9,17 @@ case 'selectionnerMois':
     // les mois étant triés décroissants
     $lesCles = array_keys($lesMois);
     $moisASelectionner = $lesCles[0];
-    //include 'vues/v_suivreFicheDeFrais.php';
     include 'vues/v_listeMoisValider.php';
     break;
 case 'selcetionnerVisiteur':
     $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
+    $leMoisB = str_replace('/', '', filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING));
     $lesMois = $pdo->getLesFicheValider();
     $moisASelectionner = $leMois;
     include 'vues/v_listeMoisValider.php';
-    $lesVisiteurs = $pdo->getVisiteurFromMoisValider($leMois);
-    //$lesCles = array_keys($lesMois);
-    $VisiteurASelectionner = $lesVisiteurs[0];
+    
+    $lesVisiteurs = $pdo->getVisiteurFromMoisValider($leMoisB);
+    $lesCles2 = array_keys($lesVisiteurs);
+    $VisiteurASelectionner = $lesCles2[0];
     include 'vues/v_listeVisiteur.php';
 }
