@@ -24,7 +24,7 @@ if ($action == 'selectionnerVisiteur' || $action == 'AffichageFicheFraisAndVisit
     require 'vues/v_visiteur_comptable.php';
 }
 
-if ($action == 'AffichageFicheFraisAndVisiteur' || $action == 'corrigerLefrais') {
+if ($action == 'AffichageFicheFraisAndVisiteur') {
     require './vues/v_validerLaFiche.php';
     $idVisiteur = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_STRING);
     if ((empty($_SESSION['idSelect']) || $idVisiteur != $_SESSION['idSelect']) && $idVisiteur != "") {
@@ -37,10 +37,8 @@ if ($action == 'AffichageFicheFraisAndVisiteur' || $action == 'corrigerLefrais')
     require 'vues/v_horsForfaitComtable.php';
 }
 
-if($action=='corrigerLefrais'){
-    $date=filter_input(INPUT_GET,'date',FILTER_SANITIZE_STRING);
-    $libelleHors=filter_input(INPUT_GET,'libelle',FILTER_SANITIZE_STRING);
-    $montant=filter_input(INPUT_GET,'montant');
-    $pdo->majFraisHorsForfait($libelle,$date,$montant,$_SESSION['idSelect']);
+if($action=='corrigerLesfraisForfait'){
+    
+    $pdo->majFraisForfait($_SESSION['idSelect'],);
 }
     

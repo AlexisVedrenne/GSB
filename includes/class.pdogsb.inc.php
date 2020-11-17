@@ -217,7 +217,7 @@ class PdoGsb
      *
      * @return null
      */
-    public function majFraisForfait($idVisiteur, $mois, $lesFrais)
+    public function majFraisForfait($idVisiteur, $mois, $ETP,$KM,$NUI,$REP)
     {
         $lesCles = array_keys($lesFrais);
         foreach ($lesCles as $unIdFrais) {
@@ -521,14 +521,15 @@ class PdoGsb
     }
     
     public function majFraisHorsForfait($libelle,$date,$montant,$idVisiteur){
+        
         $requetrePrepare=PdoGSB::$monPdo->prepare(
                 'update lignefraishorsforfait '
                 . 'set date=:date,libelle=:libelle,montant=:montant '
                 . 'where idvisiteur=:id');
         $requetrePrepare->bindParam(':date',$date,PDO::PARAM_STR);
         $requetrePrepare->bindParam(':libelle',$libelle,PDO::PARAM_STR);
-        $requetrePrepare->bindParam(':montant',$montant);
-        $requetrePrepare->bindParam(':idvisiteur',$idVisiteur,PDO::PARAM_INT);
+        $requetrePrepare->bindParam(':montant',$montant,PDO::PARAM_STR);
+        $requetrePrepare->bindParam(':idvisiteur',$idVisiteur,PDO::PARAM_STR);
         $requetrePrepare->execute();
     }
 }
