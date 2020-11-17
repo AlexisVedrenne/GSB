@@ -20,8 +20,8 @@ case 'selcetionnerVisiteur':
     
     $lesVisiteurs = $pdo->getVisiteurFromMoisValider($leMoisB);
     $lesCles2 = array_keys($lesVisiteurs);
-    $VisiteurASelectionner = $lesCles2[0];
-    include 'vues/v_listeVisiteur.php';
+    $visiteurASelectionner = $lesCles2[0];
+    include 'vues/v_listeVisiteurV2.php';
     break;
 case 'suivreFicheDeFrais':
     $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
@@ -29,8 +29,9 @@ case 'suivreFicheDeFrais':
     $lesMois = $pdo->getLesFicheValider();
     $moisASelectionner = $leMois;
     include 'vues/v_listeMoisValider.php';
+    
     $leVisiteur = filter_input(INPUT_POST, 'lstVisiteurs', FILTER_SANITIZE_STRING);
     $lesVisiteurs = $pdo->getVisiteurFromMoisValider($leMoisB);
-    $VisiteurASelectionner = $leVisiteur;
-    include 'vues/v_listeVisiteur.php';
+    $visiteurASelectionner = $leVisiteur;
+    include 'vues/v_listeVisiteurV2.php';
 }
