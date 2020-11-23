@@ -217,7 +217,7 @@ class PdoGsb
      *
      * @return null
      */
-    public function majFraisForfait($idVisiteur, $mois, $ETP,$KM,$NUI,$REP)
+    public function majFraisForfait($idVisiteur, $mois,$lesFrais)
     {
         $lesCles = array_keys($lesFrais);
         foreach ($lesCles as $unIdFrais) {

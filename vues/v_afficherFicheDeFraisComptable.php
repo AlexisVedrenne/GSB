@@ -1,6 +1,6 @@
 
 <br>
-<h4> Visiteur selectionné : <?php echo $idVisiteur ?></h4>
+<h4> Visiteur selectionné : <?php echo $_SESSION['idSelect'] ?></h4>
 <form method="post" action="index.php?uc=validerFicheDeFrais&action=corrigerLesfraisForfait">
     <div class="panel panel-info">
         <div class="panel-heading">Fiche</div>
@@ -53,7 +53,7 @@
                                    size="1" maxlength="10" 
                                    value="<?php echo $quantite ?>" 
                                    class="form-control"
-                                   name="<?php echo $idLibelle ?>">
+                                   name="lesFrais[<?php echo $idLibelle ?>]">
                         </div></td>
                     <td><?php echo $prix ?></td>
                     <td><?php echo $prix * $quantite ?></td>                   
