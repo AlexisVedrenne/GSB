@@ -46,4 +46,12 @@ case 'suivreFicheDeFrais':
     $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
     $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
     include 'vues/v_suivreFicheDeFrais.php';
+    $_SESSION["visiteurSuvie"]=$leVisiteur;
+    break;
+    
+case 'miseEnPaiement':
+    echo 'hello';
+    $pdo->majEtatFicheFrais($_SESSION["visiteurSuvie"],$_SESSION["dateSuvie"] , 'MP');
+    $_SESSION["visiteurSuvie"]=0;
+    break;
 }

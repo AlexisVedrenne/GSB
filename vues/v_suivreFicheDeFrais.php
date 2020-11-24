@@ -1,4 +1,5 @@
 <hr>
+<form action="index.php?uc=suivreFicheDeFrais&action=miseEnPaiement">
 <div class="panel panel-primary">
     <div class="panel-heading">Fiche de frais du mois 
         <?php echo $numMois . '-' . $numAnnee . ' du visiteur ' . $leVisiteur ?> : </div>
@@ -55,3 +56,6 @@
         ?>
     </table>
 </div>
+<input id="ok" type="submit" value="Mettre en paiement" class="btn btn-success" 
+                   role="button">
+</form>
