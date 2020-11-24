@@ -7,8 +7,8 @@
         <form action="index.php?uc=suivreFicheDeFrais&action=selcetionnerVisiteur" 
               method="post" role="form">
             <div class="form-group">
-                <label for="lstMois" accesskey="n">Mois : </label>
-                <select id="lstMois" name="lstMois" class="form-control">
+                <label for="lstMoisValider" accesskey="n">Mois : </label>
+                <select id="lstMoisValider" name="lstMoisValider" class="form-control">
                     <?php
                     foreach ($lesMois as $unMois) {
                         $mois = $unMois['mois'];
