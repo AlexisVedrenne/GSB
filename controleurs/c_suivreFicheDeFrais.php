@@ -50,8 +50,25 @@ case 'suivreFicheDeFrais':
     break;
     
 case 'miseEnPaiement':
-    echo 'hello';
     $pdo->majEtatFicheFrais($_SESSION["visiteurSuvie"],$_SESSION["dateSuvie"] , 'MP');
-    $_SESSION["visiteurSuvie"]=0;
+    $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_STRING);
+    $leMoisB = str_replace('/', '', filter_input(INPUT_POST, 'lstMoisValider', FILTER_SANITIZE_STRING));
+    $lesMois = $pdo->getLesFicheValider();
+    $moisASelectionner = $leMois;
+    include 'vues/v_listeMoisValider.php';
+    
+    $lesVisiteurs = $pdo->getVisiteurFromMoisValider($_SESSION["dateSuvie"]);
+    $visiteurASelectionner = $_SESSION["visiteurSuvie"];
+    include 'vues/v_listeVisiteurV2.php';
+   
+    $lesInfosFicheFrais = $pdo->getLesInfosFicheFrais($_SESSION["visiteurSuvie"], $_SESSION["dateSuvie"]);
+    $numAnnee = substr($_SESSION["dateSuvie"], 0, 4);
+    $numMois = substr($_SESSION["dateSuvie"], 4, 2);
+    $libEtat = $lesInfosFicheFrais['libEtat'];
+    $montantValide = $lesInfosFicheFrais['montantValide'];
+    $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
+    $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
+    include 'vues/v_miseEnPaiement.php';
+    
     break;
 }
