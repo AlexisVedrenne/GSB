@@ -563,4 +563,14 @@ class PdoGsb
         $res=$requetePrepare->fetchAll(PDO::FETCH_ASSOC);
         return $res;
     }
+    
+    public function getLesTypesVehicules()
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT fraiskm.libelle as typeVehicule '
+            . 'FROM fraiskm ORDER BY fraiskm.id;'
+        );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
 }

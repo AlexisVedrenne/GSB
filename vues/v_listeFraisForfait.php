@@ -28,8 +28,10 @@
                 foreach ($lesFraisForfait as $unFrais) {
                     $idFrais = $unFrais['idfrais'];
                     $libelle = htmlspecialchars($unFrais['libelle']);
-                    $quantite = $unFrais['quantite']; ?>
-                    <div class="form-group">
+                    $quantite = $unFrais['quantite']; 
+                    if($libelle != "Frais Kilométrique"){
+                    ?>
+                    <div class="form-group" style="">
                         <label for="idFrais"><?php echo $libelle ?></label>
                         <input type="text" id="idFrais" 
                                name="lesFrais[<?php echo $idFrais ?>]"
@@ -38,7 +40,35 @@
                                class="form-control">
                     </div>
                     <?php
-                }
+                
+                    }else{ ?>
+                <div>
+                <div class="form-group">
+                        <label for="idFrais"><?php echo $libelle ?></label>
+                        <input type="text" id="idFrais" 
+                               name="lesFrais[<?php echo $idFrais ?>]"
+                               size="10" maxlength="5" 
+                               value="<?php echo $quantite ?>" 
+                               class="form-control">
+                </div>
+                <div class="form-group">
+                <label for="lstTypeVehicule" accesskey="n">Type véhicule : </label>
+                <select id="lstTypeVehicule" name="lstTypeVehicule" class="form-control">
+                    <?php
+                    foreach ($lesTypesVehicules as $unTypeVehicule) {
+                        $idType = $unTypeVehicule['typeVehicule'];
+                            ?>
+                            <option value="<?php echo $idType ?>">
+                                <?php echo $idType ?> </option>
+                            <?php
+                        }
+                    }
+                    ?>    
+
+                </select>
+            </div>
+                <?php
+                    }
                 ?>
                 <button class="btn btn-success" type="submit">Ajouter</button>
                 <button class="btn btn-danger" type="reset">Effacer</button>
