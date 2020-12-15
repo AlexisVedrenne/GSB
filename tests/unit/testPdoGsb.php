@@ -164,25 +164,44 @@ Class testPdoGsb {
             return false;
         }
     }
-    
-    public function testGetNbJustificatif():bool{
-        try{
+
+    public function testGetNbJustificatif(): bool {
+        try {
             $idVisiteur = "A17";
             $mois = "202011";
-        $requetePrepare = testPdoGsb::$monPdo->prepare(
-            'SELECT fichefrais.nbjustificatifs as nb FROM fichefrais '
-            . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
-            . 'AND fichefrais.mois = :unMois'
-        );
-        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        $laLigne = $requetePrepare->fetch();
-        return !empty($laLigne['nb'])||$laLigne['nb']=='0';
-        }catch(PDOException $ex){
+            $requetePrepare = testPdoGsb::$monPdo->prepare(
+                    'SELECT fichefrais.nbjustificatifs as nb FROM fichefrais '
+                    . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                    . 'AND fichefrais.mois = :unMois'
+            );
+            $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare->execute();
+            $laLigne = $requetePrepare->fetch();
+            return !empty($laLigne['nb']) || $laLigne['nb'] == '0';
+        } catch (PDOException $ex) {
             return false;
         }
     }
 
-    
+    public function testGetLesFraisForfait(): bool {
+        try {
+            $idVisiteur = "A17";
+            $mois = "202011";
+            $requetePrepare = testPdoGSB::$monPdo->prepare(
+                    'select fraisforfait.id as idfrais,fraisforfait.libelle as libelle,lignefraisforfait.quantite as quantite,fraisforfait.montant as prix '
+                    . 'from lignefraisforfait inner join fraisforfait '
+                    . 'on fraisforfait.id=lignefraisforfait.idfraisforfait '
+                    . 'where lignefraisforfait.idvisiteur= :unIdVisiteur and '
+                    . 'lignefraisforfait.mois= :unMois'
+            );
+            $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare->execute();
+            return !empty($requetePrepare->fetchAll(PDO::FETCH_ASSOC));
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
 }
