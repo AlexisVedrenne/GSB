@@ -89,10 +89,60 @@ Class testPdoGsb {
      * Fonction qui permet de tester si l'objet pdo arrive bien à être instancié
      * @return bool
      */
-    public function testGetPdo() {               
-        return PdoGsb::getPdoGsb() != null;       
+    public function testGetPdo() {
+        try{
+        return PdoGsb::getPdoGsb() != null;
+        }catch(Swoole\Exception $ex){
+            return null;
+        }
     }
     
+    /**
+     * Fonction qui permet de tester la connexion d'un visiteur à la bd
+     * @return bool
+     */
+    public function testGetInfoVisiteur():bool{
+        try{
+        $this->CreateDbTest();
+        $login="dandre";
+        $mdp="oppg5";
+        $requetePrepare = testPdoGsb::$monPdo->prepare(
+            'SELECT visiteur.id AS id, visiteur.nom AS nom, '
+            . 'visiteur.prenom AS prenom '
+            . 'FROM visiteur '
+            . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
+        );
+        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $this->DropDbTest();
+        return !empty($requetePrepare->fetch());
+        }catch(Swoole\Exception $ex){
+            $this->DropDbTest();
+            return false;
+        }
+    }
     
-
+    public function testGetInfoComptable():bool{
+        try{
+            $this->CreateDbTest();
+        $login="damalia";
+        $mdp="dfgh";
+        $requetePrepare = testPdoGsb::$monPdo->prepare(
+            'SELECT comptable.id AS id, comptable.nom AS nom, '
+            . 'comptable.prenom AS prenom '
+            . 'FROM comptable '
+            . 'WHERE comptable.login = :unLogin AND comptable.mdp = :unMdp'
+        );
+        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $this->DropDbTest();
+        return !empty($requetePrepare->fetch());
+        }catch(Swoole\Exception $ex){
+            $this->DropDbTest();
+            return false;
+        }
+ 
+    }
 }
