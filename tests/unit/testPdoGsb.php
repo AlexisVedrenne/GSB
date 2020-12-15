@@ -25,13 +25,13 @@ Class testPdoGsb {
                 testPdoGsb::$user,
                 testPdoGsb::$mdp
         );
-        testPdoGsb::$monPdo->exec('CREATE DATABASE testGsb DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci');      
+        testPdoGsb::$monPdo->exec('CREATE DATABASE testGsb DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci');
         testPdoGsb::$monPdo = new PDO(
                 testPdoGsb::$serveur . ';' . testPdoGsb::$bdd,
                 testPdoGsb::$user,
                 testPdoGsb::$mdp
         );
-        
+
         $this->CreateTableAndInsertTest();
     }
 
@@ -80,9 +80,17 @@ Class testPdoGsb {
     /**
      * Fonction qui permet de supprimer la base de données de test
      */
-    private function DropDbTest() {        
+    private function DropDbTest() {
         testPdoGsb::$monPdo->exec('drop database testGsb');
         //testPdoGsb::$monPdo = null;
+    }
+
+    public function Open() {
+        $this->CreateDbTest();
+    }
+
+    public function Close() {
+        $this->DropDbTest();
     }
 
     /**
@@ -90,59 +98,91 @@ Class testPdoGsb {
      * @return bool
      */
     public function testGetPdo() {
-        try{
-        return PdoGsb::getPdoGsb() != null;
-        }catch(Swoole\Exception $ex){
+        try {
+            return PdoGsb::getPdoGsb() != null;
+        } catch (Swoole\Exception $ex) {
             return null;
         }
     }
-    
+
     /**
      * Fonction qui permet de tester la connexion d'un visiteur à la bd
      * @return bool
      */
-    public function testGetInfoVisiteur():bool{
-        try{
-        $this->CreateDbTest();
-        $login="dandre";
-        $mdp="oppg5";
-        $requetePrepare = testPdoGsb::$monPdo->prepare(
-            'SELECT visiteur.id AS id, visiteur.nom AS nom, '
-            . 'visiteur.prenom AS prenom '
-            . 'FROM visiteur '
-            . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
-        );
-        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        $this->DropDbTest();
-        return !empty($requetePrepare->fetch());
-        }catch(Swoole\Exception $ex){
-            $this->DropDbTest();
+    public function testGetInfoVisiteur(): bool {
+        try {
+            $login = "dandre";
+            $mdp = "oppg5";
+            $requetePrepare = testPdoGsb::$monPdo->prepare(
+                    'SELECT visiteur.id AS id, visiteur.nom AS nom, '
+                    . 'visiteur.prenom AS prenom '
+                    . 'FROM visiteur '
+                    . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
+            );
+            $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+            $requetePrepare->execute();
+            return !empty($requetePrepare->fetch());
+        } catch (Swoole\Exception $ex) {
+            return false;
+        }
+    }
+
+    public function testGetInfoComptable(): bool {
+        try {
+            $login = "damalia";
+            $mdp = "dfgh";
+            $requetePrepare = testPdoGsb::$monPdo->prepare(
+                    'SELECT comptable.id AS id, comptable.nom AS nom, '
+                    . 'comptable.prenom AS prenom '
+                    . 'FROM comptable '
+                    . 'WHERE comptable.login = :unLogin AND comptable.mdp = :unMdp'
+            );
+            $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+            $requetePrepare->execute();
+            return !empty($requetePrepare->fetch());
+        } catch (Swoole\Exception $ex) {
+            return false;
+        }
+    }
+
+    public function testGetLesFraisHorsForfait(): bool {
+        try {
+            $idVisiteur = "A17";
+            $mois = "202011";
+            $requetePrepare = testPdoGsb::$monPdo->prepare(
+                    'SELECT id as id, idvisiteur as idvisiteur, mois as mois, libelle as libelle, date as date, montant as montant FROM lignefraishorsforfait '
+                    . 'WHERE lignefraishorsforfait.idvisiteur = :unIdVisiteur '
+                    . 'AND lignefraishorsforfait.mois = :unMois'
+            );
+            $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare->execute();
+            return !empty($requetePrepare->fetchAll(PDO::FETCH_ASSOC));
+        } catch (Swoole\MySQL\Exception $ex) {
             return false;
         }
     }
     
-    public function testGetInfoComptable():bool{
+    public function testGetNbJustificatif():bool{
         try{
-            $this->CreateDbTest();
-        $login="damalia";
-        $mdp="dfgh";
+            $idVisiteur = "A17";
+            $mois = "202011";
         $requetePrepare = testPdoGsb::$monPdo->prepare(
-            'SELECT comptable.id AS id, comptable.nom AS nom, '
-            . 'comptable.prenom AS prenom '
-            . 'FROM comptable '
-            . 'WHERE comptable.login = :unLogin AND comptable.mdp = :unMdp'
+            'SELECT fichefrais.nbjustificatifs as nb FROM fichefrais '
+            . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+            . 'AND fichefrais.mois = :unMois'
         );
-        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
-        $this->DropDbTest();
-        return !empty($requetePrepare->fetch());
-        }catch(Swoole\Exception $ex){
-            $this->DropDbTest();
+        $laLigne = $requetePrepare->fetch();
+        return !empty($laLigne['nb'])||$laLigne['nb']=='0';
+        }catch(PDOException $ex){
             return false;
         }
- 
     }
+
+    
 }
