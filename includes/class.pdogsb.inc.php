@@ -564,13 +564,15 @@ class PdoGsb
         return $res;
     }
     
-    public function getLesTypesVehicules()
-    {
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT fraiskm.libelle as typeVehicule '
-            . 'FROM fraiskm ORDER BY fraiskm.id;'
-        );
+    public function getPrixVehicule($idVisiteur){
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT prixKM AS prix FROM vehicule  '
+                . 'INNER JOIN visiteur ON vehicule.id = visiteur.idvehicule '
+                . 'WHERE visiteur.id = :unIdVisiteur');
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->execute();
-        return $requetePrepare->fetchAll();
+        $rep = $requetePrepare->fetch();
+        $prix = $rep['prix'];
+        return $prix;
     }
 }

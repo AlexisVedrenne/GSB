@@ -85,6 +85,7 @@ if ($action == 'selectionnerMois') {
     $idVisiteur = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_STRING);
     $infoFicheDeFrais = $pdo->getLesInfosFicheFrais($idVisiteur, $_SESSION['date']);
     $infoFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $_SESSION['date']);
+    $pVehicule = $pdo->getPrixVehicule($idVisiteur);
     ?>
     <h4> Visiteur selectionné : <?php echo $idVisiteur ?></h4>
     <div class="panel panel-info">
@@ -124,12 +125,21 @@ if ($action == 'selectionnerMois') {
             </tr>
             <?php
             $total = 0;
-            foreach ($infoFraisForfait as $frais) {
+            foreach ($infoFraisForfait as $frais) { 
+                if($frais['libelle'] != "Frais Kilométrique"){
                 $idLibelle = $frais['idfrais'];
                 $libelleFrais = $frais['libelle'];
                 $quantite = $frais['quantite'];
                 $prix = $frais['prix'];
                 $total += $prix * $quantite;
+                
+                }else{
+                $idLibelle = $frais['idfrais'];
+                $libelleFrais = $frais['libelle'];
+                $quantite = $frais['quantite'];
+                $prix = $pVehicule;
+                $total += $prix * $quantite;
+                }
                 ?>
                 <tr>
                     <td><?php echo $libelleFrais ?></td>
