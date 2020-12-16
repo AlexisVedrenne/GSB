@@ -22,12 +22,18 @@ class PDF extends FPDF {
         $username = 'userGsb';
         $password = 'secret';
         $db = mysqli_connect($hostname, $username, $password, $bddname);
+        
+        //
         $reqIdVisiteurMois = "SELECT idvisiteur, mois FROM fichefrais";
         $repIdVisiteurMois = mysqli_query($db, $reqIdVisiteurMois);
         $rowIdVisiteurMois = mysqli_fetch_array($repIdVisiteurMois);
+        
+        //
         $reqNomPrenom = "SELECT nom, prenom FROM visiteur WHERE id= a17";
         $repNomPrenom = mysqli_query($db, $reqNomPrenom);
         $rowNomPrenom = mysqli_fetch_array($repNomPrenom);
+        //
+        
         $this->SetX(17);
 // En-tête du tableau
         $this->Cell(175, 10, 'REMBOURSEMENT DE FRAIS ENGAGES', 1, 0, 'C');
