@@ -501,6 +501,46 @@ class PdoGsb {
         $res = $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
         return $res;
     }
+    
+    /**
+     * Retourne les mois pour lesquel un visiteur a une fiche de frais
+     *
+     * @param String $idVisiteur ID du visiteur
+     *
+     * @return un tableau associatif de clé un mois -aaaamm- et de valeurs
+     *         l'année et le mois correspondant
+     */
+    public function getLesFicheValider()
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT distinct fichefrais.mois AS mois FROM fichefrais '
+            . 'WHERE fichefrais.idetat="VA"'
+            . 'ORDER BY fichefrais.mois desc'
+        );
+        $requetePrepare->execute();
+        $lesMois = array();
+        while ($laLigne = $requetePrepare->fetch()) {
+            $mois = $laLigne['mois'];
+            $numAnnee = substr($mois, 0, 4);
+            $numMois = substr($mois, 4, 2);
+            $lesMois[] = array(
+                'mois' => $mois,
+                'numAnnee' => $numAnnee,
+                'numMois' => $numMois
+            );
+        }
+        return $lesMois;
+    }
+    
+    public function getVisiteurFromMoisValider($mois){
+        $requetePrepare= PdoGSB::$monPdo->prepare(
+            'select idvisiteur as visiteur from fichefrais '
+             . 'where mois=:unMois and fichefrais.idetat="VA"');
+        $requetePrepare->bindParam(':unMois',$mois,PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $res=$requetePrepare->fetchAll(PDO::FETCH_ASSOC);
+        return $res;
+    }
 
     public function majFraisHorsForfait($libelle, $date, $montant, $idVisiteur) {
 
