@@ -131,3 +131,11 @@ ALTER TABLE `gsb_frais`.`lignefraishorsforfait`
 CHANGE COLUMN `date` `date` VARCHAR(10) NULL DEFAULT NULL ;
 ALTER TABLE `gsb_frais`.`lignefraishorsforfait` 
 CHANGE COLUMN `montant` `montant` VARCHAR(50) NULL DEFAULT NULL ;
+ALTER TABLE `gsb_frais`.`visiteur` 
+CHANGE COLUMN `mdp` `mdp` VARCHAR(256) NULL DEFAULT NULL ;
+SET SQL_SAFE_UPDATES = 0;
+update visiteur set mdp=sha2(mdp,256) where length(mdp)<>64;
+ALTER TABLE `gsb_frais`.`comptable` 
+CHANGE COLUMN `mdp` `mdp` VARCHAR(256) NULL DEFAULT NULL ;
+SET SQL_SAFE_UPDATES = 0;
+update comptable set mdp=sha2(mdp,256) where length(mdp)<>64;

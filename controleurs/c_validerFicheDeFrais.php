@@ -20,10 +20,21 @@ if ($action == 'selectionnerVisiteur' || $action == 'AffichageFicheFraisAndVisit
         $date = $datePost;
         $_SESSION['date'] = trim($date);
     }
-    $lesVisiteur = $pdo->getVisiteurFromMois($_SESSION['date']);
+    $lesVisiteur = $pdo->getVisiteurFromMois('202012');
+    var_dump($lesVisiteur);
     require 'vues/v_visiteur_comptable.php';
 }
 
+
+if ($action == 'corrigerLesfraisForfait') {
+    $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
+    if (lesQteFraisValides($lesFrais)) {
+        $pdo->majFraisForfait($_SESSION["idSelect"], $mois, $lesFrais);
+    } else {
+        ajouterErreur('Les valeurs des frais doivent être numériques');
+        include 'vues/v_erreurs.php';
+    }
+}
 if ($action == 'AffichageFicheFraisAndVisiteur' || $action == 'corrigerLesfraisForfait') {
     require './vues/v_validerLaFiche.php';
     $idVisiteur = filter_input(INPUT_POST, 'lstVisiteur', FILTER_SANITIZE_STRING);
@@ -37,14 +48,5 @@ if ($action == 'AffichageFicheFraisAndVisiteur' || $action == 'corrigerLesfraisF
     require 'vues/v_horsForfaitComtable.php';
 }
 
-if ($action == 'corrigerLesfraisForfait') {
-    $lesFrais = filter_input(INPUT_POST, 'lesFrais', FILTER_DEFAULT, FILTER_FORCE_ARRAY);
-    if (lesQteFraisValides($lesFrais)) {
-        $pdo->majFraisForfait($_SESSION["idSelect"], $mois, $lesFrais);
-    } else {
-        ajouterErreur('Les valeurs des frais doivent être numériques');
-        include 'vues/v_erreurs.php';
-    }
-}
 
 

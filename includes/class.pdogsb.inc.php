@@ -494,8 +494,8 @@ class PdoGsb {
 
     public function getVisiteurFromMois($mois) {
         $requetePrepare = PdoGSB::$monPdo->prepare(
-                'select idvisiteur as visiteur from fichefrais '
-                . 'where mois=:unMois');
+                "select fichefrais.idvisiteur as visiteur, CONCAT(visiteur.nom,' ', visiteur.prenom) as NomVisiteur from fichefrais inner join visiteur on visiteur.id= fichefrais.idvisiteur"
+                . "where mois=:unMois");
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
         $res = $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
@@ -569,10 +569,27 @@ class PdoGsb {
     
     public function getNomPrenom($idVisiteur){
         $requetePrepare = PdoGSB::$monPdo->prepare(
-            'SELECT visiteur.nom, visiteur.prenom FROM visiteur '
+            "SELECT CONCAT(visiteur.nom,' ', visiteur.prenom) FROM visiteur "
                 . 'WHERE visiteur.id = :unIdVisiteur');
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->execute();
-        return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);;
+        return $requetePrepare->fetch(PDO::FETCH_ASSOC);;
+    }
+    
+    /**
+     * Recupère l'id d'un visiteur en fonction du nom-prenom du visiteur passé en paramètre.
+     *
+     * @param type $nomVis
+     * @return L'id du visiteur
+     */
+    public function getIdFromNomVisiteur($nomVis) {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+                "select id from visiteur "
+                . "where CONCAT(nom, ' ', prenom) = :unNom "
+        );
+        $requetePrepare->bindParam(':unNom', $nomVis, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $res = $requetePrepare->fetch(PDO::FETCH_ASSOC);
+        return $res;
     }
 }

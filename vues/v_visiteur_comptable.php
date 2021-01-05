@@ -9,9 +9,10 @@
                         $selectedValue = $lesVisiteur[0];
                         foreach ($lesVisiteur as $unVisiteur) {
                             $idvisi = $unVisiteur['visiteur'];
+                            $nom_visiteur = $unVisiteur['NomVisiteur'];
                             if ($selectedValue == $idvisi) {
-                                ?><option selected value="<?php echo $unVisiteur['visiteur'] ?>"><?php echo $unVisiteur['visiteur'] ?></option>               
-                            <?php } else { ?> <option value="<?php echo $idvisi ?>"><?php echo $idvisi ?></option> <?php
+                                ?><option selected value="<?php echo $unVisiteur['visiteur'] ?>"><?php echo $nom_visiteur ?></option>               
+                            <?php } else { ?> <option value="<?php echo $idvisi ?>"><?php echo $nom_visiteur ?></option> <?php
                             }
                         }
                     } else {
@@ -19,9 +20,10 @@
                         $selectedValue = $lesVisiteur[0];
                         foreach ($lesVisiteur as $unVisiteur) {
                             $idvisi = $unVisiteur['visiteur'];
+                            $nom_visiteur = $unVisiteur['NomVisiteur'];
                             if ($selectedValue == $idvisi) {
-                                ?><option selected value="<?php echo $unVisiteur['visiteur'] ?>"><?php echo $unVisiteur['visiteur'] ?></option>               
-                            <?php } else { ?> <option value="<?php echo $idvisi ?>"><?php echo $idvisi ?></option> <?php
+                                ?><option selected value="<?php echo $unVisiteur['visiteur'] ?>"><?php echo $nom_visiteur ?></option>               
+                            <?php } else { ?> <option value="<?php echo $idvisi ?>"><?php echo $nom_visiteur ?></option> <?php
                             }
                         }
                     }

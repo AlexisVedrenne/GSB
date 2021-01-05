@@ -13,18 +13,18 @@
             $libelleHors = "";
             $dateHors = "";
             $montantHors = "";
-            $id="";
+            $id = "";
             foreach ($infoFraisHorsForfait as $frais) {
                 $libelleHors = $frais['libelle'];
                 $dateHors = $frais['date'];
                 $montantHors = $frais['montant'];
-                $id=$frais['id'];
+                $id = $frais['id'];
                 ?>      
                 <tr>     
                     <td><div class="form-group">                     
                             <input type="text" id="idLibelle" 
                                    size="6" maxlength="10"
-                                   name="id[<?php echo $id?>]"
+                                   name="id[<?php echo $id ?>]"
                                    value="<?php echo $libelleHors ?>" 
                                    class="form-control">
                         </div></td>
@@ -45,7 +45,9 @@
                     <td><?php if (!empty($infoFraisHorsForfait)) { ?>
 
                             <div class="col-md-3">                               
-                                <input role="button" type="submit" id="btnCorrection" class="btn btn-success" value="Refuser">                                                 
+                                <a href="index.php?uc=ValiderFicheDeFrais&action=supprimerFrais&idFrais=<?php echo $id ?>&mois=<?php echo $frais['date'] ?>&idVisiteur=<?php echo $_SESSION['idVisiteur'] ?> " 
+                                   type="reset" class="btn btn-danger" role="button"
+                                   onclick="return confirm('Voulez-vous vraiment supprimer ou reporter ce frais hors forfait?');">Supprimer</a>                                                
                             </div>                                              
                         <?php }
                         ?></td>       
