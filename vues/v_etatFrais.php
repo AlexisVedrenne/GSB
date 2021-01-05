@@ -71,4 +71,4 @@
         ?>
     </table>
 </div>
-<button> <a href=../fpdf/pdf.php?id=<?php echo $_SESSION['idVisiteur'] ?>&mois=<?php echo $_SESSION['date'] ?>>Télécharger votre fiche de frais au format PDF !</a></button>
+<button> <a href=../fpdf/pdf.php?id=<?php echo $_SESSION['idVisiteur'] ?>>Télécharger votre fiche de frais au format PDF !</a></button>

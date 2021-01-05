@@ -1,6 +1,7 @@
 <?php
 
 require('../fpdf/fpdf.php');
+
 //require_once 'includes/fct.inc.php';
 
 class PDF extends FPDF {
@@ -19,6 +20,8 @@ class PDF extends FPDF {
      * Fonction Footer qui s'occupera du pied de page de toutes les pages
      */
     function footer() {
+        $this->Text(50, 240, "Fait a Paris, le 7 Janvier 2011
+                    Vu l'argent comptable" );
         $this->Image('../images/signatureComptable.png', 135, 250);
     }
 
@@ -41,6 +44,7 @@ class PDF extends FPDF {
         $repPrenom = mysqli_query($db, $reqPrenom);
         $rowPrenom = mysqli_fetch_array($repPrenom);
 
+
         // Requête pour avoir le libellé du frais forfaitaire
         $reqFraisForfait = "SELECT libelle FROM lignefraishorsforfait";
         $repFraisForfait = mysqli_query($db, $reqFraisForfait);
@@ -55,14 +59,18 @@ class PDF extends FPDF {
         $repMontant = "SELECT montant FROM lignefraishorsforfait";
         $reqMontant = mysqli_query($db, $repMontant);
         $rowMontant = mysqli_fetch_array($reqMontant);
-
+        
+        // Requête pour avoir la date, le libelle, et le montant
+        $reqDateLibelleMontant = "SELECT date, libelle, montant FROM lignefraishorsforfait";
+        $repDateLibelleMontant = mysqli_query($db, $reqDateLibelleMontant);
+        $rowDateLibelleMontant = mysqli_fetch_array($repDateLibelleMontant);
+        
         $this->SetX(17);
         // En-tête du tableau
         $this->Cell(175, 10, 'REMBOURSEMENT DE FRAIS ENGAGES', 1, 0, 'C');
 
-        $this->Text(30, 70, 'Visiteur : ' . $id );
+        $this->Text(30, 70, 'Visiteur : ' . $id);
 
-        $this->Text(30, 80, 'Mois : ' . $mois);
         $this->Text(70, 70, $rowPrenom['prenom'] . ' ' . strtoupper($rowPrenom['nom']));
         // Met la position Y du projet attribut à 60
         $this->SetY(75);
@@ -79,7 +87,7 @@ class PDF extends FPDF {
         $this->Text(80, 107, $rowQte['quantite']);
         $this->Text(125, 107, $rowMontant['montant']);
         $this->Text(175, 107, $rowQte['quantite'] * $rowMontant['montant']);
-        
+
         $this->Text(80, 130, 'Autres Frais');
         /**
          * 
@@ -87,12 +95,13 @@ class PDF extends FPDF {
         $this->SetY(150);
         $this->SetX(10);
         $this->Cell(190, 10, 'Date                       Libelle                     Montant', 1, 0, 'C');
+        $this->Text(250, 160, $rowDateLibelleMontant['date'] . $rowDateLibelleMontant['libelle'] . $rowDateLibelleMontant['montant']); 
     }
 
 }
 
 $pdf = new PDF();
 $pdf->AddPage();
-$pdf->SetFont('Arial', 'B', 16);
+$pdf->SetFont('Arial', 'B', 14);
 $pdf->body();
 $pdf->Output();
