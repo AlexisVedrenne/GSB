@@ -24,7 +24,7 @@
         <meta name="author" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./styles/bootstrap/bootstrap.css" rel="stylesheet">
-        <link href="./styles/style.css" rel="stylesheet">
+        <link href="./styles/style.css" rel="stylesheet">        
     </head>
     <body>
         <div class="container">
@@ -87,7 +87,7 @@
                                 </a>
                             </li>
                             <li <?php if ($uc == 'etatFrais') { ?>class="active"<?php } ?>>
-                                <a href="">
+                                <a href="index.php?uc=suivreFicheDeFrais&action=selectionnerMois">
                                     <span class="glyphicon glyphicon-list-alt"></span>
                                     Suivre fiche de frais
                                 </a>

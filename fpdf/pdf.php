@@ -1,7 +1,8 @@
 <?php
 
 require('../fpdf/fpdf.php');
-include '../includes/class.pdogsb.inc.php';
+//require_once 'includes/fct.inc.php';
+
 class PDF extends FPDF {
 
     /**
@@ -23,8 +24,7 @@ class PDF extends FPDF {
 
     function body() {
 
-        // tableau de chaîne de caractère comportant des mois
-        $tableauMois = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
+
 
         // Connexion à la BDD
         $bddname = 'gsb_frais';
@@ -49,7 +49,7 @@ class PDF extends FPDF {
         $repMois = mysqli_query($db, $reqMois);
         $rowMois = mysqli_fetch_array($repMois);
 
-        $idMois = dateAnglaisVersFrancais($rowMois['mois']);
+        $idMois = $rowMois['mois'];
 
         // Requête pour avoir le libellé du frais forfaitaire
         $reqFraisForfait = "SELECT libelle FROM lignefraishorsforfait";
@@ -70,7 +70,7 @@ class PDF extends FPDF {
         // En-tête du tableau
         $this->Cell(175, 10, 'REMBOURSEMENT DE FRAIS ENGAGES', 1, 0, 'C');
 
-        $this->Text(30, 70, 'Visiteur : ' . $rowIdVisiteur['id']);
+        $this->Text(30, 70, 'Visiteur : ' );
 
         $this->Text(30, 80, 'Mois : ' . $idMois);
         $this->Text(70, 70, $rowPrenom['prenom'] . ' ' . strtoupper($rowPrenom['nom']));
@@ -78,8 +78,6 @@ class PDF extends FPDF {
         $this->SetY(75);
         // Met la position X du projet attribut à 40S
         $this->SetX(30);
-        // Objet Mois
-        //$this->Text(30, 80, 'Mois : ' . $rowIdVisiteur['mois']);
         // Met la position Y du projet attribut à 60
         $this->SetY(90);
         // Met la position X du projet attribut à 40
@@ -91,6 +89,8 @@ class PDF extends FPDF {
         $this->Text(80, 107, $rowQte['quantite']);
         $this->Text(125, 107, $rowMontant['montant']);
         $this->Text(175, 107, $rowQte['quantite'] * $rowMontant['montant']);
+        
+        $this->Text(80, 130, 'Autres Frais');
     }
 
 }
