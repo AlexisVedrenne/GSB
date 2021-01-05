@@ -1,7 +1,7 @@
 <?php
 
 require('../fpdf/fpdf.php');
-
+include '../includes/class.pdogsb.inc.php';
 class PDF extends FPDF {
 
     /**
@@ -22,10 +22,10 @@ class PDF extends FPDF {
     }
 
     function body() {
-        
+
         // tableau de chaîne de caractère comportant des mois
         $tableauMois = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"];
-        
+
         // Connexion à la BDD
         $bddname = 'gsb_frais';
         $hostname = 'localhost';
@@ -38,22 +38,19 @@ class PDF extends FPDF {
         $repIdVisiteur = mysqli_query($db, $reqIdVisiteur);
         $rowIdVisiteur = mysqli_fetch_array($repIdVisiteur);
 
-        
+
         // Requête pour avoir le prenom
         $reqPrenom = "SELECT prenom, nom FROM visiteur";
         $repPrenom = mysqli_query($db, $reqPrenom);
         $rowPrenom = mysqli_fetch_array($repPrenom);
-        
+
         // Requête pour avoir le mois
         $reqMois = "SELECT mois FROM lignefraishorsforfait";
         $repMois = mysqli_query($db, $reqMois);
         $rowMois = mysqli_fetch_array($repMois);
-        
-        $idMois = $rowMois['mois'];
-        $idMoisLettre = strval($idMois[4]) + strval($idMois[5]);
-        $idMoisLettre = $tableauMois[$idMoisLettre-1];
-        $idMoisAnnee  = strval($idMois[0]) + strval($idMois[1]) + strval($idMois[2]) + strval($idMois[3]);
-        
+
+        $idMois = dateAnglaisVersFrancais($rowMois['mois']);
+
         // Requête pour avoir le libellé du frais forfaitaire
         $reqFraisForfait = "SELECT libelle FROM lignefraishorsforfait";
         $repFraisForfait = mysqli_query($db, $reqFraisForfait);
@@ -68,14 +65,14 @@ class PDF extends FPDF {
         $repMontant = "SELECT montant FROM lignefraishorsforfait";
         $reqMontant = mysqli_query($db, $repMontant);
         $rowMontant = mysqli_fetch_array($reqMontant);
-        
+
         $this->SetX(17);
         // En-tête du tableau
         $this->Cell(175, 10, 'REMBOURSEMENT DE FRAIS ENGAGES', 1, 0, 'C');
 
         $this->Text(30, 70, 'Visiteur : ' . $rowIdVisiteur['id']);
-        
-        $this->Text(30, 80, 'Mois : ' . $idMoisLettre . $idMoisAnnee);
+
+        $this->Text(30, 80, 'Mois : ' . $idMois);
         $this->Text(70, 70, $rowPrenom['prenom'] . ' ' . strtoupper($rowPrenom['nom']));
         // Met la position Y du projet attribut à 60
         $this->SetY(75);
