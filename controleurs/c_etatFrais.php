@@ -41,5 +41,5 @@ case 'voirEtatFrais':
     $nbJustificatifs = $lesInfosFicheFrais['nbJustificatifs'];
     $dateModif = dateAnglaisVersFrancais($lesInfosFicheFrais['dateModif']);
     include 'vues/v_etatFrais.php';
-    echo "<button> <a href=../fpdf/pdf.php>Télécharger votre fiche de frais au format PDF !</a></button>";
+    
 }

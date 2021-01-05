@@ -24,7 +24,8 @@ class PDF extends FPDF {
 
     function body() {
 
-
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
+        $mois = filter_input(INPUT_GET, 'date', FILTER_SANITIZE_STRING);
 
         // Connexion à la BDD
         $bddname = 'gsb_frais';
@@ -33,23 +34,12 @@ class PDF extends FPDF {
         $password = 'secret';
         $db = mysqli_connect($hostname, $username, $password, $bddname);
 
-        // Requête pour récupérer l'id du visiteur
-        $reqIdVisiteur = "SELECT id FROM visiteur";
-        $repIdVisiteur = mysqli_query($db, $reqIdVisiteur);
-        $rowIdVisiteur = mysqli_fetch_array($repIdVisiteur);
 
 
         // Requête pour avoir le prenom
-        $reqPrenom = "SELECT prenom, nom FROM visiteur";
+        $reqPrenom = "SELECT prenom, nom FROM visiteur WHERE id ='$id' ";
         $repPrenom = mysqli_query($db, $reqPrenom);
         $rowPrenom = mysqli_fetch_array($repPrenom);
-
-        // Requête pour avoir le mois
-        $reqMois = "SELECT mois FROM lignefraishorsforfait";
-        $repMois = mysqli_query($db, $reqMois);
-        $rowMois = mysqli_fetch_array($repMois);
-
-        $idMois = $rowMois['mois'];
 
         // Requête pour avoir le libellé du frais forfaitaire
         $reqFraisForfait = "SELECT libelle FROM lignefraishorsforfait";
@@ -70,9 +60,9 @@ class PDF extends FPDF {
         // En-tête du tableau
         $this->Cell(175, 10, 'REMBOURSEMENT DE FRAIS ENGAGES', 1, 0, 'C');
 
-        $this->Text(30, 70, 'Visiteur : ' );
+        $this->Text(30, 70, 'Visiteur : ' . $id );
 
-        $this->Text(30, 80, 'Mois : ' . $idMois);
+        $this->Text(30, 80, 'Mois : ' . $mois);
         $this->Text(70, 70, $rowPrenom['prenom'] . ' ' . strtoupper($rowPrenom['nom']));
         // Met la position Y du projet attribut à 60
         $this->SetY(75);
@@ -84,13 +74,19 @@ class PDF extends FPDF {
         $this->SetX(10);
 
         // Place l'en-tête du premier tableau
-        $this->Cell(190, 10, 'Frais Forfaitaires         Quantite           Montant unitaire           Total', 1, 0);
+        $this->Cell(190, 10, 'Frais Forfaitaires         Quantite           Montant unitaire           Total', 1, 0, 'C');
         $this->Text(15, 107, $rowFraisForfait['libelle']);
         $this->Text(80, 107, $rowQte['quantite']);
         $this->Text(125, 107, $rowMontant['montant']);
         $this->Text(175, 107, $rowQte['quantite'] * $rowMontant['montant']);
         
         $this->Text(80, 130, 'Autres Frais');
+        /**
+         * 
+         */
+        $this->SetY(150);
+        $this->SetX(10);
+        $this->Cell(190, 10, 'Date                       Libelle                     Montant', 1, 0, 'C');
     }
 
 }
