@@ -575,4 +575,13 @@ class PdoGsb
         $prix = $rep['prix'];
         return $prix;
     }
+    
+    public function getNomPrenom($idVisiteur){
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT visiteur.nom, visiteur.prenom FROM visiteur '
+                . 'WHERE visiteur.id = :unIdVisiteur');
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);;
+    }
 }

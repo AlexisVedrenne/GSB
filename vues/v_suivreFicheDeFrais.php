@@ -6,7 +6,6 @@
             <div class="panel-body">
                 <strong><u>Etat :</u></strong> <?php echo $libEtat ?>
                 depuis le <?php echo $dateModif ?> <br> 
-                <strong><u>Montant validé :</u></strong> <?php echo $montantValide ?>
             </div>
         </div>
         <div class="panel panel-info">
