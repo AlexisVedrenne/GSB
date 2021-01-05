@@ -1,4 +1,3 @@
-
 <br>
 <h4> Visiteur selectionné : <?php echo $_SESSION['idSelect'] ?></h4>
 <form method="post" action="index.php?uc=validerFicheDeFrais&action=corrigerLesfraisForfait">
@@ -39,6 +38,7 @@
             <?php
             $total = 0;
             foreach ($infoFraisForfait as $frais) {
+                
                 $idLibelle = $frais['idfrais'];
                 $libelleFrais = $frais['libelle'];
                 $quantite = $frais['quantite'];
@@ -69,4 +69,3 @@
         </div>
     </div>
 </form>
-

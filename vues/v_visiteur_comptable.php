@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col-md-4">
         <form action = "index.php?uc=validerFicheDeFrais&action=AffichageFicheFraisAndVisiteur" method = "post" role = "form">

@@ -378,3 +378,10 @@ function majFicheFrais($pdo)
         $pdo->exec($req);
     }
 }
+
+function getVisiteurFromMoisValider($pdo) {
+    $req = 'select idvisiteur as visiteur from fichefrais where mois=:unMois and fichefrais.idetat="VA"';
+    $res = $pdo->query($req);
+    $lesLignes = $res->fetchAll();
+    return $lesLignes;
+}

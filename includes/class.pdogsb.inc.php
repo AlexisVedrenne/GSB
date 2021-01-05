@@ -554,5 +554,25 @@ class PdoGsb {
         $requetrePrepare->bindParam(':idvisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetrePrepare->execute();
     }
-
+    
+    public function getPrixVehicule($idVisiteur){
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT prixKM AS prix FROM vehicule  '
+                . 'INNER JOIN visiteur ON vehicule.id = visiteur.idvehicule '
+                . 'WHERE visiteur.id = :unIdVisiteur');
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $rep = $requetePrepare->fetch();
+        $prix = $rep['prix'];
+        return $prix;
+    }
+    
+    public function getNomPrenom($idVisiteur){
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT visiteur.nom, visiteur.prenom FROM visiteur '
+                . 'WHERE visiteur.id = :unIdVisiteur');
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);;
+    }
 }
