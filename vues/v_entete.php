@@ -24,7 +24,7 @@
         <meta name="author" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./styles/bootstrap/bootstrap.css" rel="stylesheet">
-        <link href="./styles/style.css" rel="stylesheet">
+        <link href="./styles/style.css" rel="stylesheet">        
     </head>
     <body>
         <div class="container">
@@ -41,6 +41,7 @@
                                  title="Laboratoire Galaxy-Swiss Bourdin">
                         </h1>
                     </div>
+                    <?php if($_SESSION['type']=='visiteur'){?>
                     <div class="col-md-8">
                         <ul class="nav nav-pills pull-right" role="tablist">
                             <li <?php if (!$uc || $uc == 'accueil') { ?>class="active" <?php } ?>>
@@ -70,6 +71,38 @@
                             </li>
                         </ul>
                     </div>
+                    <?php } elseif($_SESSION['type']=='comptable') { ?>
+                        <div class="col-md-8">
+                        <ul class="nav nav-pills pull-right" role="tablist">
+                            <li <?php if (!$uc || $uc == 'accueil') { ?>class="active" <?php } ?>>
+                                <a href="index.php">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                    Accueil
+                                </a>
+                            </li>
+                            <li <?php if ($uc == 'gererFrais') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=validerFicheDeFrais&action=selectionnerMois">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    Valider fiche de frais
+                                </a>
+                            </li>
+                            <li <?php if ($uc == 'etatFrais') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=suivreFicheDeFrais&action=selectionnerMois">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                    Suivre fiche de frais
+                                </a>
+                            </li>
+                            <li 
+                            <?php if ($uc == 'deconnexion') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=deconnexion&action=demandeDeconnexion">
+                                    <span class="glyphicon glyphicon-log-out"></span>
+                                    Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <?php }?>
                 </div>
             </div>
             <?php
