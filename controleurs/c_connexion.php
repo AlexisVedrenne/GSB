@@ -26,7 +26,7 @@ case 'demandeConnexion':
 case 'valideConnexion':
     $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_STRING);
     $mdpRecup = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_STRING);
-    $mdp = hash('sha256', $mdpRecup);
+    $mdp = hash('sha512', $mdpRecup);
     $visiteur = $pdo->getInfosVisiteur($login, $mdp);
     $comptable= $pdo->getInfosComptable($login,$mdp);
     if (!is_array($visiteur) and !is_array($comptable)) {
